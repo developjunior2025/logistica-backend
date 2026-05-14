@@ -11,6 +11,8 @@ import {
 import { Store } from '../../stores/entities/store.entity';
 import { StoreService } from '../../stores/entities/store-service.entity';
 import { User } from '../../auth/entities/user.entity';
+import { OrdersService } from '../../orders/services/orders.service';
+import { forwardRef, Inject } from '@nestjs/common';
 
 @Injectable()
 export class QuotationsService {
@@ -23,6 +25,8 @@ export class QuotationsService {
     private readonly serviceRepository: Repository<StoreService>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @Inject(forwardRef(() => OrdersService))
+    private readonly ordersService: OrdersService,
   ) {}
 
   async create(createDto: CreateQuotationDto, clientId: number) {
@@ -116,7 +120,9 @@ export class QuotationsService {
     quotation.status = 'QUOTE_APPROVED';
     const saved = await this.quotationRepository.save(quotation);
 
-    // TODO: Create the Order automagically (Sprint 09)
+    // Create the Order automatically (Sprint 09)
+    await this.ordersService.createFromQuotation(saved);
+
     return saved;
   }
 

@@ -3,6 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
+// Feature modules
 import { AuthModule } from './modules/auth/auth.module';
 import { RbacModule } from './modules/rbac/rbac.module';
 import { CatalogsModule } from './modules/catalogs/catalogs.module';
@@ -12,24 +14,17 @@ import { QuotationsModule } from './modules/quotations/quotations.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { PaymentsModule } from './modules/payments/payments.module';
 import { CommissionsModule } from './modules/commissions/commissions.module';
-import { AuditModule } from './modules/audit/audit.module';
 import { TosModule } from './modules/tos/tos.module';
 import { WmsModule } from './modules/wms/wms.module';
 import { AgdModule } from './modules/agd/agd.module';
 import { TransportModule } from './modules/transport/transport.module';
-import { InspectionsModule } from './modules/inspections/inspections.module';
-import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { ReportsModule } from './modules/reports/reports.module';
 import { SupportModule } from './modules/support/support.module';
-import { SearchController } from './modules/marketplace/search/search.controller';
-import { SearchService } from './modules/marketplace/search/search.service';
 import { MarketplaceModule } from './modules/marketplace/marketplace.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST || 'localhost',
@@ -38,31 +33,32 @@ import { MarketplaceModule } from './modules/marketplace/marketplace.module';
       password: process.env.DB_PASSWORD || '',
       database: process.env.DB_NAME || 'marketplace_logistico',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: process.env.NODE_ENV !== 'production', // Use migrations in production
-      namingStrategy: undefined, // Custom naming strategy will go here if needed
+      synchronize: process.env.NODE_ENV !== 'production',
     }),
+    // ── Auth & Access Control ──────────────────────────────────
     AuthModule,
     RbacModule,
+    // ── Catalogs (Puertos, Monedas, Tipos de Servicio) ─────────
     CatalogsModule,
+    // ── Fase 1 & 2: Marketplace ────────────────────────────────
     StoresModule,
     ServicesModule,
     QuotationsModule,
+    MarketplaceModule,
+    // ── Fase 3: Operaciones & Finanzas (Sprints 09-11) ─────────
     OrdersModule,
     PaymentsModule,
     CommissionsModule,
-    AuditModule,
+    // ── Operaciones Portuarias (Sprints 12-17) ─────────────────
     TosModule,
     WmsModule,
     AgdModule,
     TransportModule,
-    InspectionsModule,
-    DashboardModule,
+    // ── Analytics & Soporte (Sprints 18-23) ───────────────────
     ReportsModule,
     SupportModule,
-    MarketplaceModule,
-    // Modules will be imported here
   ],
-  controllers: [AppController, SearchController],
-  providers: [AppService, SearchService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
