@@ -19,6 +19,7 @@ import { TosModule } from './modules/tos/tos.module';
 import { WmsModule } from './modules/wms/wms.module';
 import { AgdModule } from './modules/agd/agd.module';
 import { TransportModule } from './modules/transport/transport.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { ReportsModule } from './modules/reports/reports.module';
 import { SupportModule } from './modules/support/support.module';
 import { MarketplaceModule } from './modules/marketplace/marketplace.module';
@@ -57,6 +58,7 @@ import { MarketplaceModule } from './modules/marketplace/marketplace.module';
     AgdModule,
     TransportModule,
     // ── Analytics & Soporte (Sprints 18-23) ───────────────────
+    DashboardModule,
     ReportsModule,
     SupportModule,
   ],
