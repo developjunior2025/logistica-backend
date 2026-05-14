@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 // Feature modules
 import { AuthModule } from './modules/auth/auth.module';
 import { RbacModule } from './modules/rbac/rbac.module';
+import { AuditModule } from './modules/audit/audit.module';
 import { CatalogsModule } from './modules/catalogs/catalogs.module';
 import { StoresModule } from './modules/stores/stores.module';
 import { ServicesModule } from './modules/services/services.module';
@@ -38,6 +39,7 @@ import { MarketplaceModule } from './modules/marketplace/marketplace.module';
     // ── Auth & Access Control ──────────────────────────────────
     AuthModule,
     RbacModule,
+    AuditModule,
     // ── Catalogs (Puertos, Monedas, Tipos de Servicio) ─────────
     CatalogsModule,
     // ── Fase 1 & 2: Marketplace ────────────────────────────────
